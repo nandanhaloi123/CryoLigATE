@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "cryoligate"
 version = "1.0.0"
-description = "Deep learning-driven density refinement for Cryo-EM drug discovery"
+description = "Enhancing the resolvability of cryo-EM maps in protein-ligand complexes using deep learning."
 readme = "README.md"
 authors = [
     { name = "Nandan Haloi" }
