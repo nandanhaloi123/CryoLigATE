@@ -60,7 +60,7 @@ Before running inference or fine-tuning, download the pre-trained weights:
 
 ```bash
 mkdir weights
-wget -O weights/cryoligate_v1.0.0.pth https://github.com/nandanhaloi123/CryoLigate/releases/download/v1.0.0/cryoligate_v1.0.0.pth```
+wget -O weights/cryoligate_v1.0.0.pth https://github.com/nandanhaloi123/CryoLigate/releases/download/v1.0.0/cryoligate_v1.0.0.pth
 ```
 
 Download the example data used in the inference command:
