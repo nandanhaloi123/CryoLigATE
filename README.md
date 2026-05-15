@@ -13,23 +13,36 @@ CryoLigate features a streamlined, single-command interface. It automatically is
 
 > **Note:** We strongly recommend installing CryoLigate in a fresh Python or Conda environment to avoid dependency conflicts.
 
-### Set up the Conda Environment First
-Create and activate the environment using the provided `environment.yml` file:
+## Option A: Install CryoLigate via PyPI (Recommended):
+
+### 1. Create a clean environment with Python
 ```bash
-conda env create -f environment.yml
+conda create -n CryoLigate python=3.10 -y
 conda activate CryoLigate
 ```
+### 2. Install the package
 
-Install CryoLigate via PyPI (Recommended):
 ```bash
 pip install cryoligate -U
 ```
 
-Or install directly from GitHub for the latest development updates:
+## Option B: Install directly from GitHub for the latest development updates:
+
+### 1. Clone the repository and step into it
 
 ```Bash
 git clone [https://github.com/nandanhaloi123/CryoLigate.git](https://github.com/nandanhaloi123/CryoLigate.git)
 cd CryoLigate
+```
+
+### 2. Create the environment using the local file
+```Bash
+conda env create -f environment.yml
+conda activate cryoligate
+````
+
+### 3. Link your local directory in editable mode
+```Bash
 pip install -e .
 ```
 
