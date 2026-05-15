@@ -1,4 +1,4 @@
-![CryoLigate Pipeline](docs/assets/Intro.png)
+![CryoLigate Pipeline](docs/Intro.png)
 
 ## Introduction
 The full potential of cryo-EM in drug discovery remains limited by poor density resolvability
