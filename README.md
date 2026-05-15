@@ -31,7 +31,7 @@ pip install cryoligate -U
 ### 1. Clone the repository and step into it
 
 ```Bash
-git clone [https://github.com/nandanhaloi123/CryoLigate.git](https://github.com/nandanhaloi123/CryoLigate.git)
+git clone https://github.com/nandanhaloi123/CryoLigate.git
 cd CryoLigate
 ```
 
