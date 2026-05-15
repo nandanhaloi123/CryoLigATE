@@ -85,11 +85,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-!data/8ioe*.mrc
-!data/8ioe*.map
-!data/8ioe*.pdb
-!data/8ioe*.cif
-!data/8ioe*.pth
-!data/8ioe*.pt
+!example/8ioe.map
+!example/8ioe.cif
 weights/
 checkpoints/
