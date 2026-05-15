@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cryoligate"
+version = "1.0.0"
+description = "Deep learning-driven density refinement for Cryo-EM drug discovery"
+readme = "README.md"
+authors = [
+    { name = "Nandan Haloi" }
+]
+license = { text = "MIT" }
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+requires-python = ">=3.9"
+
+# Core dependencies required for inference
+dependencies = [
+    "numpy<2.0",
+    "scipy",
+    "pandas",
+    "biopython",
+    "requests",
+    "tqdm",
+    "pyarrow",
+    "openpyxl",
+    "gemmi",
+    "mrcfile",
+    "timm",
+    "einops",
+    "transformers",
+    "torch",
+]
+
+# Optional dependencies for researchers who want to train the model
+[project.optional-dependencies]
+train = [
+    "wandb",
+    "h5py",
+    "matplotlib",
+    "seaborn",
+]
+
+# This creates the command-line tool "CryoLigate-infer"
+[project.scripts]
+CryoLigate-infer = "CryoLigate.inference:main"

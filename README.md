@@ -13,6 +13,13 @@ CryoLigate features a streamlined, single-command interface. It automatically is
 
 > **Note:** We strongly recommend installing CryoLigate in a fresh Python or Conda environment to avoid dependency conflicts.
 
+### Set up the Conda Environment First
+Create and activate the environment using the provided `environment.yml` file:
+```bash
+conda env create -f environment.yml
+conda activate CryoLigate
+```
+
 Install CryoLigate via PyPI (Recommended):
 ```bash
 pip install cryoligate -U
@@ -41,5 +48,5 @@ wget -O weights/cryoligate_v1.0.0.pth [https://github.com/nandanhaloi123/CryoLig
 
 You can run inference using CryoLigate with:
 ```bash
-cryoligate-infer --weights cryoligate_v1.0.0.pth --map input_map.mrc --pdb complex.pdb --resname LIG --chain A --resid 501
+CryoLigate-infer --weights cryoligate_v1.0.0.pth --map example/8ioe/emd_35617.map --pdb example/8ioe/8ioe.cif --resname TPP --chain A --resid 801
 ```
