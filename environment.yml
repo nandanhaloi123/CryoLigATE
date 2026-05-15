@@ -12,6 +12,8 @@ dependencies:
   - pytorch
   - torchvision
   - pytorch-cuda=11.8      # Change to 12.1 if your GPU driver requires a newer toolkit
+  - pillow>=10
+  - libtiff
   - gemmi
   - mrcfile
   - pip:

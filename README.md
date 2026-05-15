@@ -38,7 +38,7 @@ cd CryoLigate
 ### 2. Create the environment using the local file
 ```Bash
 conda env create -f environment.yml
-conda activate cryoligate
+conda activate CryoLigate
 ````
 
 ### 3. Link your local directory in editable mode
