@@ -48,5 +48,5 @@ wget -O weights/cryoligate_v1.0.0.pth [https://github.com/nandanhaloi123/CryoLig
 
 You can run inference using CryoLigate with:
 ```bash
-CryoLigate-infer --weights cryoligate_v1.0.0.pth --map example/8ioe/emd_35617.map --pdb example/8ioe/8ioe.cif --resname TPP --chain A --resid 801
+CryoLigate-infer --weights weights/cryoligate_v1.0.0.pth --map example/8ioe/emd_35617.map --pdb example/8ioe/8ioe.cif --resname TPP --chain A --resid 801
 ```
