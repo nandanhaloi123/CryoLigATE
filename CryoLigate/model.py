@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import numpy as np
-from timm.models.layers import trunc_normal_, DropPath
+from timm.layers import trunc_normal_, DropPath
 from einops import rearrange 
 from einops.layers.torch import Rearrange
 
