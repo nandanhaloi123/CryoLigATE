@@ -2,6 +2,9 @@
 An AI framework specifically designed to enhance the density resolvability of protein–ligand interface.
 
 
+## 📊 How it Works
+![CryoLigate Pipeline](docs/assets/pipeline_diagram.png)
+
 ## 📥 Download Weights
 
 Before running inference or fine-tuning, download the pre-trained weights:
