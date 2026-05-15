@@ -38,6 +38,7 @@ mkdir weights
 wget -O weights/cryoligate_v1.0.0.pth [https://github.com/nandanhaloi123/CryoLigate/releases/download/v1.0.0/cryoligate_v1.0.0.pth](https://github.com/nandanhaloi123/CryoLigate/releases/download/v1.0.0/cryoligate_v1.0.0.pth)
 ```
 
+
 You can run inference using CryoLigate with:
 ```bash
 cryoligate-infer --weights cryoligate_v1.0.0.pth --map input_map.mrc --pdb complex.pdb --resname LIG --chain A --resid 501
