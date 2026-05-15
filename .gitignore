@@ -85,7 +85,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-!example/8ioe.map
-!example/8ioe.cif
+example/8ioe.map
+example/8ioe.cif
 weights/
 checkpoints/
