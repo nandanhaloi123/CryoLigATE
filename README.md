@@ -1,9 +1,10 @@
+![CryoLigate Pipeline](docs/assets/Intro.png)
+
+# Introduction
+
 # CryoLigate
 An AI framework specifically designed to enhance the density resolvability of protein–ligand interface.
 
-
-## 📊 How it Works
-![CryoLigate Pipeline](docs/assets/Intro.png)
 
 ## 📥 Download Weights
 
