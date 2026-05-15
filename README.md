@@ -3,7 +3,7 @@ An AI framework specifically designed to enhance the density resolvability of pr
 
 
 ## 📊 How it Works
-![CryoLigate Pipeline](docs/assets/pipeline_diagram.png)
+![CryoLigate Pipeline](docs/assets/intro.png)
 
 ## 📥 Download Weights
 
