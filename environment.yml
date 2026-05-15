@@ -1,0 +1,19 @@
+name: CryoLigate
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - numpy
+  - scipy
+  - pytorch
+  - torchvision
+  - pytorch-cuda=11.8      # Change to 12.1 if your GPU driver requires a newer toolkit
+  - gemmi
+  - mrcfile
+  - pip:
+    - timm
+    - einops
