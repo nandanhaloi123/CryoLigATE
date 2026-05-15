@@ -1,0 +1,31 @@
+name: cryoligate
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.9
+  - pytorch
+  - torchvision
+  - pytorch-cuda=11.8  
+  - rdkit             
+  - numpy<2.0
+  - scipy
+  - pandas
+  - h5py
+  - biopython
+  - matplotlib
+  - seaborn
+  - pyarrow
+  - openpyxl
+  - requests
+  - tqdm
+  - pip
+  - pip:
+    - gemmi
+    - mrcfile
+    - timm
+    - einops
+    - transformers
+    - wandb
