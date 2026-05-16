@@ -82,7 +82,7 @@ CryoLigate-infer --weights weights/cryoligate_v1.0.0.pth --map example/8ioe/emd_
 
 For any questions, discussions, or collaboration inquiries, please reach out:
 
-* **Nandan Haloi**: [nandanhaloi123@gmail.com](mailto:nandanhaloi123@gmail.com)
+* **Nandan Haloi**: [nandanhaloi123@gmail.com](mailto:nandanhaloi123@gmail.com), [nandan.haloi@scilifelab.se](mailto:nandan.haloi@scilifelab.se)
 * **Lab Website**: [Nandan's Personal Webpage](https://nandanhaloi.netlify.app/)
 
 **Bug Reports & Feature Requests:** If you encounter any issues while using CryoLigate or have ideas for new features, please open an issue on our [GitHub Issues page](https://github.com/nandanhaloi123/CryoLigate/issues) rather than sending an email. This helps us track problems efficiently and allows the entire community to benefit from the solutions!
