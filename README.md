@@ -78,12 +78,12 @@ Run inference using CryoLigate:
 CryoLigate-infer --weights weights/cryoligate_v1.0.0.pth --map example/8ioe/emd_35617.map --pdb example/8ioe/8ioe.cif --resname TPP --chain A --resid 801
 ```
 
-## Contact
+# Contact
 
 For any questions, discussions, or collaboration inquiries, please reach out:
 
 * **Nandan Haloi**: [nandanhaloi123@gmail.com](mailto:nandanhaloi123@gmail.com)
-* **Lab Website**: [Link to your lab or personal website if applicable](https://nandanhaloi.netlify.app/)
+* **Lab Website**: [Nandan's Personal Webpage](https://nandanhaloi.netlify.app/)
 
 **Bug Reports & Feature Requests:** If you encounter any issues while using CryoLigate or have ideas for new features, please open an issue on our [GitHub Issues page](https://github.com/nandanhaloi123/CryoLigate/issues) rather than sending an email. This helps us track problems efficiently and allows the entire community to benefit from the solutions!
 
@@ -99,6 +99,5 @@ If you use this code, dataset or the models in your research, please cite the fo
   author={Nandan Haloi1, Rebecca J. Howard, and Erik Lindahl},
   journal={In Prep},
   year={2026},
-  url={[https://github.com/nandanhaloi123/CryoLigate](https://github.com/nandanhaloi123/CryoLigate)}
 }
 
