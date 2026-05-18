@@ -71,7 +71,7 @@ unzip 8ioe.zip -d example/8ioe/
 rm 8ioe.zip
 ```
 
-Run inference using CryoLigate (load conda enviornment with conda activate CryoLigate with ```bash conda activate CryoLigate ```if you have not already):
+Run inference using CryoLigate (load conda enviornment with ```conda activate CryoLigate ```if you have not already):
 > **Note:** Although the user provides an aligned PDB model containing the ligand, this coordinate information is utilized solely to localize the region of interest. Only the localized experimental density and the derived protein occupancy mask are used as input for CryoLigate.
 
 ```bash
