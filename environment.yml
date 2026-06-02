@@ -1,4 +1,4 @@
-name: CryoLigate
+name: cryoligate
 channels:
   - pytorch
   - nvidia

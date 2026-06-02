@@ -7,7 +7,7 @@ import gemmi
 import scipy.ndimage
 import mrcfile
 
-from CryoLigate.model import SCUNet                
+from cryoligate.model import SCUNet                
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 TARGET_VOXEL_SIZE = 0.5 
@@ -192,7 +192,7 @@ def run_real_world_inference(model, map_path, pdb_path, resname, resid, output_d
     print("\nInference Complete!")
 
 def main():
-    parser = argparse.ArgumentParser(description="CryoLigate Inference")
+    parser = argparse.ArgumentParser(description="CryoLigATE Inference")
     parser.add_argument("--weights", type=str, default="weights/cryoligate_v2.0.0.pth", help="Path to trained weights")
     parser.add_argument("--map", type=str, required=True, help="Full experimental density map (.mrc/.map)")
     parser.add_argument("--pdb", type=str, required=True, help="Full modeled complex (.pdb/.cif)")
