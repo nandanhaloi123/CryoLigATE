@@ -60,22 +60,22 @@ Before running inference or fine-tuning, download the pre-trained weights:
 
 ```bash
 mkdir weights
-wget -O weights/cryoligate_v1.0.0.pth https://github.com/nandanhaloi123/CryoLigate/releases/download/v1.0.0/cryoligate_v1.0.0.pth
+wget -O weights/cryoligate_v2.0.0.pth https://github.com/nandanhaloi123/CryoLigate/releases/download/v2.0.0/cryoligate_v2.0.0.pth
 ```
 
 Download the example data used in the inference command:
 ```bash
-mkdir -p example/8ioe
-wget -O 8ioe.zip https://github.com/nandanhaloi123/CryoLigate/releases/download/v1.0.0/8ioe.zip
-unzip 8ioe.zip -d example/8ioe/
-rm 8ioe.zip
+mkdir -p example/8si9
+wget -O 8si9.zip https://github.com/nandanhaloi123/CryoLigate/releases/download/v2.0.0/8si9.zip
+unzip 8si9.zip -d example/8si9/
+rm 8si9.zip
 ```
 
 Run inference using CryoLigate (load conda enviornment with ```conda activate CryoLigate```if you have not already):
 > **Note:** Although the user provides an aligned PDB model containing the ligand, this coordinate information is utilized solely to localize the region of interest. Only the localized experimental density and the derived protein occupancy mask are used as input for CryoLigate.
 
 ```bash
-CryoLigate-infer --weights weights/cryoligate_v1.0.0.pth --map example/8ioe/emd_35617.map --pdb example/8ioe/8ioe.cif --resname TPP --chain A --resid 801
+CryoLigate-infer --weights weights/cryoligate_v1.0.0.pth --map example/8si9/emd_40503.map --pdb example/8si9/8si9.cif --resname Y4B --resid 402
 ```
 
 # Contact

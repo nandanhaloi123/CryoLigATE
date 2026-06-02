@@ -16,7 +16,7 @@ GRID_SIZE = 64
 def load_model(weights_path, device):
     """Loads the SCUNet model."""
     print(f"Loading model weights from: {weights_path}")
-    model = SCUNet(in_nc=2, window_size=4).to(device)
+    model = SCUNet(in_nc=1, window_size=4).to(device)
     state_dict = torch.load(weights_path, map_location=device)
     if list(state_dict.keys())[0].startswith('module.'):
         state_dict = {k[7:]: v for k, v in state_dict.items()}
@@ -66,7 +66,7 @@ def get_cropped_and_resampled_density(gemmi_grid, centroid, grid_size, target_vo
     
     return resampled_1d.reshape((grid_size, grid_size, grid_size)).astype(np.float32), phys_origin
 
-def run_real_world_inference(model, map_path, pdb_path, resname, chain_id, resid, output_dir, device):
+def run_real_world_inference(model, map_path, pdb_path, resname, resid, output_dir, device):
     print(f"\n--- Processing Complex: {Path(pdb_path).name} ---")
     
     output_dir = Path(output_dir)
@@ -87,25 +87,24 @@ def run_real_world_inference(model, map_path, pdb_path, resname, chain_id, resid
     
     # Standardize inputs for comparison
     target_resname = resname.upper()
-    target_chain = chain_id
     target_resid = str(resid)
 
     for model_obj in st:
         for chain in model_obj:
             for res in chain:
-                # Check for the exact Chain, Sequence Number, AND Residue Name
-                if chain.name == target_chain and str(res.seqid.num) == target_resid:
+                # Check for the exact Sequence Number AND Residue Name
+                if str(res.seqid.num) == target_resid:
                     if res.name.upper() == target_resname:
                         target_residues.append((chain.name, res.seqid.num, res.name, res))
                     else:
-                        print(f"WARNING: Found residue {res.name} at {target_chain}:{target_resid}, but expected {target_resname}.")
+                        print(f"WARNING: Found residue {res.name} at Chain {chain.name}:{target_resid}, but expected {target_resname}.")
                 elif res.het_flag == 'A': # Amino acids
                     protein_residues.append(res)
                     for atom in res:
                         protein_atoms.append(atom)
 
     if not target_residues:
-        print(f"ERROR: Ligand {target_resname} at Chain {target_chain}, Residue {target_resid} not found in the provided structure.")
+        print(f"ERROR: Ligand {target_resname} at Residue {target_resid} not found in the provided structure.")
         return
 
     # 3. Process the exact ligand instance found
@@ -138,7 +137,8 @@ def run_real_world_inference(model, map_path, pdb_path, resname, chain_id, resid
                 protein_mask[v[0], v[1], v[2]] = 1.0
 
         # Create Model Input Tensor: Shape (1, 2, D, H, W)
-        input_tensor = np.stack([density, protein_mask], axis=0)
+        # input_tensor = np.stack([density, protein_mask], axis=0)
+        input_tensor = np.stack([density], axis=0)
         input_torch = torch.from_numpy(input_tensor).float().unsqueeze(0).to(device)
 
         # Run Inference
@@ -193,13 +193,12 @@ def run_real_world_inference(model, map_path, pdb_path, resname, chain_id, resid
 
 def main():
     parser = argparse.ArgumentParser(description="CryoLigate Inference")
-    parser.add_argument("--weights", type=str, default="weights/cryoligate_v1.0.0.pth", help="Path to trained weights")
+    parser.add_argument("--weights", type=str, default="weights/cryoligate_v2.0.0.pth", help="Path to trained weights")
     parser.add_argument("--map", type=str, required=True, help="Full experimental density map (.mrc/.map)")
     parser.add_argument("--pdb", type=str, required=True, help="Full modeled complex (.pdb/.cif)")
     
     # Specific target arguments
     parser.add_argument("--resname", type=str, required=True, help="3-letter code of the ligand (e.g., ATP)")
-    parser.add_argument("--chain", type=str, required=True, help="Chain ID where the ligand is located (e.g., A)")
     parser.add_argument("--resid", type=str, required=True, help="Residue sequence number (e.g., 501)")
     
     parser.add_argument("--outdir", type=str, default=None, help="Directory to save the refined local boxes (default: same folder as --map)")
@@ -216,7 +215,7 @@ def main():
             sys.exit(1)
 
     model = load_model(args.weights, DEVICE)
-    run_real_world_inference(model, args.map, args.pdb, args.resname, args.chain, args.resid, args.outdir, DEVICE)
+    run_real_world_inference(model, args.map, args.pdb, args.resname, args.resid, args.outdir, DEVICE)
 
 if __name__ == "__main__":
     main()
