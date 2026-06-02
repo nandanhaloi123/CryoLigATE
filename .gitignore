@@ -85,7 +85,12 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-example
-example
+example/8ioe
+example/8si9
+example/8si9_ligand_altered
+example/8si9_ligand_null
+example/8si9_ligand_rotated
+example/8si9_ligand_shifted
+example/No_Lig
 weights/
 checkpoints/
