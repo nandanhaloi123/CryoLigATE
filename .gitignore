@@ -92,5 +92,7 @@ example/8si9_ligand_null
 example/8si9_ligand_rotated
 example/8si9_ligand_shifted
 example/No_Lig
+example/No_Lig/Map.mrc
 weights/
 checkpoints/
+*mrc
