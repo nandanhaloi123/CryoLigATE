@@ -14,7 +14,7 @@ to enhance the density resolvability of protein–ligand interfaces. We trained 
 
 CryoLigATE features a streamlined, single-command interface. It automatically isolates the target sub-volume using a preliminary atomic model as a spatial reference, requiring no manual box curation. The pipeline is computationally efficient, with localized refinement completed in seconds on standard desktop-grade GPU hardware.
 
-# Installation
+# Installation 
 
 > **Note:** We strongly recommend installing CryoLigATE in a fresh Python or Conda environment to avoid dependency conflicts.
 
