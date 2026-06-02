@@ -7,19 +7,19 @@ name = "cryoligate"
 version = "2.0.0"
 description = "Enhancing the resolvability of cryo-EM maps in protein-ligand complexes using deep learning."
 readme = "README.md"
-authors = [
-    { name = "Nandan Haloi" }
-]
+requires-python = ">=3.10"
+authors = [{ name = "Nandan Haloi" }]
 license = { text = "MIT" }
+
+keywords = ["cryo-EM", "protein", "ligand", "deep-learning", "bioinformatics", "structural-biology"]
+
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering :: Bio-Informatics",
 ]
-requires-python = ">=3.10"
 
-# Core dependencies strictly required for running local inference
 dependencies = [
     "numpy",
     "scipy",
@@ -28,10 +28,9 @@ dependencies = [
     "mrcfile",
     "timm",
     "einops",
-    "torch",
+    "torch>=2.0.0",
 ]
 
-# Optional dependencies for researchers who want to train the model
 [project.optional-dependencies]
 train = [
     "wandb",
@@ -40,6 +39,13 @@ train = [
     "seaborn",
 ]
 
-# This creates the clean, case-insensitive user command-line entrypoint
 [project.scripts]
 cryoligate-infer = "cryoligate.inference:main"
+
+[project.urls]
+Homepage = "https://github.com/nandanhaloi123/CryoLigATE"
+Repository = "https://github.com/nandanhaloi123/CryoLigATE"
+Issues = "https://github.com/nandanhaloi123/CryoLigATE/issues"
+
+[tool.setuptools]
+packages = ["cryoligate"]
