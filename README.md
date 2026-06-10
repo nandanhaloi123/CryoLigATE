@@ -78,7 +78,6 @@ Run inference using CryoLigATE (load conda enviornment with ```conda activate cr
 cryoligate-infer --weights weights/cryoligate_v2.0.0.pth --map example/8si9/emd_40503.map --pdb example/8si9/8si9.cif --resname Y4B --resid 402
 ```
 
-
 # Contact
 
 For any questions, discussions, or collaboration inquiries, please reach out:
