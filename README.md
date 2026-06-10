@@ -74,6 +74,7 @@ rm 8si9.zip
 Run inference using CryoLigATE (load conda enviornment with ```conda activate cryoligate```if you have not already):
 > **Note:** Although the user provides an aligned PDB model containing the ligand, this coordinate information is utilized solely to localize the region of interest. Only the localized experimental density and the derived protein occupancy mask are used as input for CryoLigATE.
 
+
 ```bash
 cryoligate-infer --weights weights/cryoligate_v2.0.0.pth --map example/8si9/emd_40503.map --pdb example/8si9/8si9.cif --resname Y4B --resid 402
 ```
