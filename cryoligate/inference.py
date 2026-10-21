@@ -7,7 +7,8 @@ import gemmi
 import scipy.ndimage
 import mrcfile
 
-from cryoligate.model import SCUNet                
+from cryoligate.model import SCUNet
+from cryoligate import omit_control
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 TARGET_VOXEL_SIZE = 0.5 
@@ -66,7 +67,13 @@ def get_cropped_and_resampled_density(gemmi_grid, centroid, grid_size, target_vo
     
     return resampled_1d.reshape((grid_size, grid_size, grid_size)).astype(np.float32), phys_origin
 
-def run_real_world_inference(model, map_path, pdb_path, resname, resid, output_dir, device):
+def predict(model, density, device):
+    """Runs the network on a normalised (x, y, z) density box and returns the (x, y, z) prediction."""
+    input_torch = torch.from_numpy(density[None, None]).float().to(device)
+    with torch.no_grad():
+        return model(input_torch).cpu().numpy().squeeze()
+
+def run_real_world_inference(model, map_path, pdb_path, resname, resid, output_dir, device, omit=False):
     print(f"\n--- Processing Complex: {Path(pdb_path).name} ---")
     
     output_dir = Path(output_dir)
@@ -136,17 +143,11 @@ def run_real_world_inference(model, map_path, pdb_path, resname, resid, output_d
             if np.all((v >= 0) & (v < GRID_SIZE)):
                 protein_mask[v[0], v[1], v[2]] = 1.0
 
-        # Create Model Input Tensor: Shape (1, 2, D, H, W)
-        # input_tensor = np.stack([density, protein_mask], axis=0)
-        input_tensor = np.stack([density], axis=0)
-        input_torch = torch.from_numpy(input_tensor).float().unsqueeze(0).to(device)
+        # Run Inference (the released model takes the experimental density only)
+        pred_xyz = predict(model, density, device)
 
-        # Run Inference
-        with torch.no_grad():
-            pred_tensor = model(input_torch)
-            
         # Convert output to saveable format (transpose to Z, Y, X for MRC standard)
-        pred_np = pred_tensor.cpu().numpy().squeeze().T
+        pred_np = pred_xyz.T
 
         # --- SAVE OUTPUTS ---
         crop_cell = gemmi.UnitCell(
@@ -189,6 +190,29 @@ def run_real_world_inference(model, map_path, pdb_path, resname, resid, output_d
         new_st.write_pdb(str(out_pdb))
         print(f"     Saved Local PDB:  {out_pdb.name}")
 
+        # 4. Optional omit control: rerun with the putative ligand density replaced by solvent-like noise
+        if omit:
+            lig_heavy = np.array([[a.pos.x, a.pos.y, a.pos.z] for a in lig_res if a.element.name != "H"])
+            other = np.array([[a.pos.x, a.pos.y, a.pos.z] for a in protein_atoms]).reshape(-1, 3)
+            omitted = omit_control.make_omit_input(density, lig_heavy, other, phys_origin, TARGET_VOXEL_SIZE)
+            pred_omit_xyz = predict(model, omitted, device)
+
+            out_omit = output_dir / f"refined_omit_{identifier}.mrc"
+            save_mrc_with_origin(pred_omit_xyz.T, out_omit, crop_cell, phys_origin)
+            out_diff = output_dir / f"difference_{identifier}.mrc"
+            save_mrc_with_origin((pred_xyz - pred_omit_xyz).T, out_diff, crop_cell, phys_origin)
+            omit_raw = omitted * (np.std(raw_density) + 1e-6) + np.mean(raw_density)
+            out_omit_in = output_dir / f"omit_input_{identifier}.mrc"
+            save_mrc_with_origin(omit_raw.T, out_omit_in, crop_cell, phys_origin)
+
+            q = [omit_control.ligand_q_score(v, phys_origin, TARGET_VOXEL_SIZE, lig_heavy)
+                 for v in (raw_density, pred_xyz, pred_omit_xyz)]
+            text, _, _ = omit_control.report(identifier, *q)
+            out_report = output_dir / f"omit_report_{identifier}.txt"
+            out_report.write_text(text + "\n")
+            print(f"     Saved Omit Control: {out_omit.name}, {out_diff.name}, {out_omit_in.name}, {out_report.name}")
+            print("\n" + text)
+
     print("\nInference Complete!")
 
 def main():
@@ -202,7 +226,10 @@ def main():
     parser.add_argument("--resid", type=str, required=True, help="Residue sequence number (e.g., 501)")
     
     parser.add_argument("--outdir", type=str, default=None, help="Directory to save the refined local boxes (default: same folder as --map)")
-    
+    parser.add_argument("--omit-control", action="store_true",
+                        help="Also run with the putative ligand density replaced by solvent-like noise and report how "
+                             "much of the predicted ligand density is supported by the data (recommended for new structures)")
+
     args = parser.parse_args()
     
     # Default outdir to the map's parent directory if not specified
@@ -215,7 +242,8 @@ def main():
             sys.exit(1)
 
     model = load_model(args.weights, DEVICE)
-    run_real_world_inference(model, args.map, args.pdb, args.resname, args.resid, args.outdir, DEVICE)
+    run_real_world_inference(model, args.map, args.pdb, args.resname, args.resid, args.outdir, DEVICE,
+                             omit=args.omit_control)
 
 if __name__ == "__main__":
     main()

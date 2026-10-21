@@ -72,12 +72,38 @@ rm 8si9.zip
 ```
 
 Run inference using CryoLigATE (load conda enviornment with ```conda activate cryoligate```if you have not already):
-> **Note:** Although the user provides an aligned PDB model containing the ligand, this coordinate information is utilized solely to localize the region of interest. Only the localized experimental density and the derived protein occupancy mask are used as input for CryoLigATE.
+> **Note:** Although the user provides an aligned PDB model containing the ligand, this coordinate information is utilized solely to localize the region of interest. Only the localized experimental density is used as input for CryoLigATE.
 
 
 ```bash
 cryoligate-infer --weights weights/cryoligate_v2.0.0.pth --map example/8si9/emd_40503.map --pdb example/8si9/8si9.cif --resname Y4B --resid 402
 ```
+
+## Omit control (recommended for new structures)
+
+CryoLigATE is trained against density simulated from atomic models and can learn priors about what ligand density looks like. In regions without ligand signal it can therefore produce weak, ligand-like density. Before using CryoLigATE output as evidence for a ligand in a new structure, run the omit control:
+
+```bash
+cryoligate-infer --weights weights/cryoligate_v2.0.0.pth --map example/8si9/emd_40503.map --pdb example/8si9/8si9.cif --resname Y4B --resid 402 --omit-control
+```
+
+This runs CryoLigATE twice: on the original volume (E), and with the density around the putative ligand replaced by noise matching the solvent of the same volume (E_omit). E_omit shows what the network produces from its learned priors alone. In addition to the standard outputs, it writes:
+
+| File | Content |
+| --- | --- |
+| `refined_omit_<ligand>.mrc` | Prediction from the omit input (E_omit) |
+| `difference_<ligand>.mrc` | E − E_omit: the predicted density attributable to the experimental data |
+| `omit_input_<ligand>.mrc` | The omit input itself |
+| `omit_report_<ligand>.txt` | Ligand Q-scores at the input ligand position (no re-fitting) for the original map, E and E_omit, and an interpretation |
+
+How to interpret the report:
+
+1. **Inspect the original map first.** CryoLigATE output should support, not replace, the experimental density. Place and refine the ligand against the original map.
+2. **Q(E) − Q(E_omit) of at least 0.1:** the predicted ligand density depends on the experimental data at this site. Inspect `difference_<ligand>.mrc` for the supported density.
+3. **Q(E) − Q(E_omit) below 0.1:** the predicted ligand density is likely driven by the network's priors and should not be taken as evidence for the ligand. On the CryoLigATE test set (n = 647) the median difference was 0.34, and 14% of complexes were below 0.1.
+4. **Q(E) below 0.2:** no ligand-like density was predicted at the putative position.
+
+The ligand Q-score is computed as in Pintilie et al. (2020), following the ChimeraX implementation, using only the ligand's own atoms to assign sampling points.
 
 # Contact
 

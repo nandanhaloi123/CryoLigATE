@@ -92,6 +92,10 @@ example/8si9_ligand_null/
 example/8si9_ligand_rotated/
 example/8si9_ligand_shifted/
 example/No_Lig/
+example/6DG8/
+example/Caci/
+example/Cholesterol_6PM6/
+example/9E17/
 weights/
 checkpoints/
 *mrc
